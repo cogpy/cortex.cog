@@ -4,6 +4,7 @@
 #include <memory>
 #include <mutex>
 #include "controllers/assistants.h"
+#include "controllers/cognitive.h"
 #include "controllers/configs.h"
 #include "controllers/engines.h"
 #include "controllers/events.h"
@@ -30,6 +31,7 @@
 #include "services/model_service.h"
 #include "services/model_source_service.h"
 #include "services/thread_service.h"
+#include "extensions/opencog-engine/opencog_engine.h"
 #include "utils/archive_utils.h"
 #include "utils/cortex_utils.h"
 #include "utils/dylib_path_manager.h"
@@ -228,6 +230,11 @@ void RunServer(bool ignore_cout) {
   auto server_ctl =
       std::make_shared<inferences::server>(inference_svc, engine_service);
   auto config_ctl = std::make_shared<Configs>(config_service);
+  
+  // Initialize OpenCog cognitive engine
+  auto opencog_engine = std::make_shared<cortex::opencog::OpenCogEngine>(
+      *engine_service, *task_queue);
+  auto cognitive_ctl = std::make_shared<CognitiveController>(opencog_engine);
 
   drogon::app().registerController(swagger_ctl);
   drogon::app().registerController(file_ctl);
@@ -241,6 +248,7 @@ void RunServer(bool ignore_cout) {
   drogon::app().registerController(server_ctl);
   drogon::app().registerController(hw_ctl);
   drogon::app().registerController(config_ctl);
+  drogon::app().registerController(cognitive_ctl);
 
   auto upload_path = std::filesystem::temp_directory_path() / "cortex-uploads";
   drogon::app().setUploadPath(upload_path.string());
