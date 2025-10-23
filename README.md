@@ -111,9 +111,10 @@ cortex stop          # Shutdown server
 
 Local AI platform for running AI models with:
 
-- **Multi-Engine Support** - Start with llama.cpp or add your own
+- **Multi-Engine Support** - Start with llama.cpp, add OpenCog cognitive fusion, or bring your own
 - **Hardware Optimized** - Automatic GPU detection (NVIDIA/AMD/Intel)
 - **OpenAI-Compatible API** - Tools, Runs, and Multi-modal coming soon
+- **Cognitive Architecture** - OpenCog-inspired reasoning with knowledge graphs and probabilistic logic
 
 ## Featured Models
 
@@ -145,6 +146,25 @@ cortex-nightly engines install llama-cpp -m
 cortex-nightly hardware detect
 cortex-nightly hardware activate
 ```
+
+```sh
+# Cognitive operations (OpenCog engine)
+curl -X POST http://localhost:39281/v1/cognitive/knowledge \
+  -H "Content-Type: application/json" \
+  -d '{"knowledge": {"concept": "ai", "strength": 0.9, "confidence": 0.85}}'
+
+# Query knowledge graph
+curl -X POST http://localhost:39281/v1/cognitive/knowledge/query \
+  -H "Content-Type: application/json" \
+  -d '{"query": "ai"}'
+
+# Perform reasoning
+curl -X POST http://localhost:39281/v1/cognitive/reason \
+  -H "Content-Type: application/json" \
+  -d '{"operation": "induce"}'
+```
+
+For more cognitive engine examples, see [OpenCog Examples](docs/opencog-examples.md).
 
 ## Need Help?
 
