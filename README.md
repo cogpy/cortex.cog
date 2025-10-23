@@ -155,10 +155,12 @@ curl -X POST http://localhost:39281/v1/cognitive/knowledge \
 
 # Query knowledge graph
 curl -X POST http://localhost:39281/v1/cognitive/knowledge/query \
+  -H "Content-Type: application/json" \
   -d '{"query": "ai"}'
 
 # Perform reasoning
 curl -X POST http://localhost:39281/v1/cognitive/reason \
+  -H "Content-Type: application/json" \
   -d '{"operation": "induce"}'
 ```
 

@@ -41,9 +41,13 @@ def add_knowledge(concept, strength=0.8, confidence=0.7):
                 }
             }
         )
+        response.raise_for_status()
         return response.json()
-    except Exception as e:
+    except requests.exceptions.RequestException as e:
         print(f"Error adding knowledge: {e}")
+        return None
+    except json.JSONDecodeError as e:
+        print(f"Error parsing response: {e}")
         return None
 
 def query_knowledge(pattern):
@@ -53,9 +57,13 @@ def query_knowledge(pattern):
             f"{BASE_URL}/v1/cognitive/knowledge/query",
             json={"query": pattern}
         )
+        response.raise_for_status()
         return response.json()
-    except Exception as e:
+    except requests.exceptions.RequestException as e:
         print(f"Error querying knowledge: {e}")
+        return None
+    except json.JSONDecodeError as e:
+        print(f"Error parsing response: {e}")
         return None
 
 def perform_reasoning(operation):
@@ -65,18 +73,26 @@ def perform_reasoning(operation):
             f"{BASE_URL}/v1/cognitive/reason",
             json={"operation": operation}
         )
+        response.raise_for_status()
         return response.json()
-    except Exception as e:
+    except requests.exceptions.RequestException as e:
         print(f"Error performing reasoning: {e}")
+        return None
+    except json.JSONDecodeError as e:
+        print(f"Error parsing response: {e}")
         return None
 
 def get_stats():
     """Get atomspace statistics"""
     try:
         response = requests.get(f"{BASE_URL}/v1/cognitive/stats")
+        response.raise_for_status()
         return response.json()
-    except Exception as e:
+    except requests.exceptions.RequestException as e:
         print(f"Error getting stats: {e}")
+        return None
+    except json.JSONDecodeError as e:
+        print(f"Error parsing response: {e}")
         return None
 
 def fuse_engines(engines, query):
@@ -89,9 +105,13 @@ def fuse_engines(engines, query):
                 "query": query
             }
         )
+        response.raise_for_status()
         return response.json()
-    except Exception as e:
+    except requests.exceptions.RequestException as e:
         print(f"Error fusing engines: {e}")
+        return None
+    except json.JSONDecodeError as e:
+        print(f"Error parsing response: {e}")
         return None
 
 def print_section(title):
